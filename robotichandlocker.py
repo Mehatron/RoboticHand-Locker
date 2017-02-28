@@ -44,5 +44,5 @@ while reading:
             status = reader.MFRC522_Auth(reader.PICC_AUTHENT1A, 8, key, uid)
 
             if status == reader.MI_OK:
-                reader.MFRC522_Read(3)
-                reader.StopCrypto1()
+                reader.MFRC522_Read(8)
+                reader.MFRC522_StopCrypto1()
