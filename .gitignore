@@ -1,5 +1,2 @@
 # Binary files
 *.pyc
-
-# MFRC522 Library
-MFRC522.py

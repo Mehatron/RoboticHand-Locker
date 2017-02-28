@@ -4,11 +4,12 @@ import RPi.GPIO as GPIO
 import MFRC522
 import signal
 
-reading = True
-users = (
-    'Milos Zivlak  ZI',
-    'Pavle Kukavica  '
+database = (
+     [ 0, 4, 0, 5, 9, 9, 8, 0, 0, 0, 1, 13, 0, 0, 0, 0 ],
+     [ 0, 4, 0, 5, 9, 9, 8, 0, 0, 0, 1, 13, 255, 255, 255, 255 ]
 )
+
+reading = True
 
 def signal_handler(signum, frame):
     global reading
@@ -44,5 +45,16 @@ while reading:
             status = reader.MFRC522_Auth(reader.PICC_AUTHENT1A, 8, key, uid)
 
             if status == reader.MI_OK:
-                reader.MFRC522_Read(8)
+                status, user = reader.MFRC522_Read(8)
+                if status == False:
+                    continue;
+                for data in database:
+                    wrong = False
+                    print user
+                    for i in range(0, 16):
+                        if user[i] != data[i]:
+                            wrong = True
+                            break
+                    if wrong == False:
+                        toggle_lock()
                 reader.MFRC522_StopCrypto1()
